@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>The World Today — Friday 20 November 2026</title>
+<style>
+  :root{
+    --paper:#f4efe1; --ink:#141110; --ink2:#3a332c; --mute:#6d6154;
+    --red:#b0231b; --rule:#1b1713; --tint:#e7ddc6; --tint2:#efe8d6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#fff}
+  body{font-family:"Liberation Serif","DejaVu Serif",serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+  .sheet{position:relative;width:1024px;height:1024px;background:var(--paper);overflow:hidden;
+         padding:0 18px 0 18px;display:flex;flex-direction:column}
+  .sans{font-family:"Liberation Sans","DejaVu Sans",sans-serif}
+
+  /* ---------- rail ---------- */
+  .rail{display:flex;justify-content:space-between;align-items:center;height:20px;
+        border-top:5px solid var(--rule);margin-top:7px;padding-top:4px;
+        font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:7.9px;letter-spacing:1.5px;
+        text-transform:uppercase;color:var(--ink2)}
+  .rail b{letter-spacing:2px}
+
+  /* ---------- masthead ---------- */
+  .mast{text-align:center;margin-top:5px}
+  .mast .date{font-size:54px;line-height:1.08;font-weight:700;letter-spacing:-1.4px}
+  .mast .sub{margin-top:5px;font-family:"Liberation Sans","DejaVu Sans",sans-serif;
+             font-size:9.2px;letter-spacing:2.6px;text-transform:uppercase;color:var(--ink2)}
+  .dbl{border-top:2.5px solid var(--rule);border-bottom:0.8px solid var(--rule);height:3.6px;margin-top:6px}
+
+  /* ---------- stat strip ---------- */
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-top:9px;
+         border-top:1.6px solid var(--rule);border-bottom:1.6px solid var(--rule)}
+  .stat{padding:5px 6px 6px 7px;border-left:0.7px solid #b9ab92}
+  .stat:first-child{border-left:none;padding-left:2px}
+  .stat .n{font-size:23px;font-weight:700;line-height:1.0;letter-spacing:-0.4px}
+  .stat .n em{font-style:normal;color:var(--red)}
+  .stat .l{margin-top:3px;font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:7.2px;
+           line-height:1.25;letter-spacing:0.3px;text-transform:uppercase;color:var(--ink2)}
+
+  /* ---------- section heads ---------- */
+  .shead{display:flex;align-items:center;gap:7px;margin-top:12px;margin-bottom:6px}
+  .shead .t{font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:7.4px;letter-spacing:2.2px;
+            text-transform:uppercase;white-space:nowrap;color:var(--red);font-weight:700}
+  .shead .r{flex:1;height:0.8px;background:#9c8f78}
+  .shead .c{font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:7px;letter-spacing:1px;
+            text-transform:uppercase;color:var(--mute);white-space:nowrap}
+
+  /* ---------- leads ---------- */
+  .leads{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
+  .lead{display:flex;flex-direction:column}
+  .art{position:relative;height:121px;border:1.2px solid var(--rule);overflow:hidden;background:#22303a}
+  .art svg{display:block;width:100%;height:100%}
+  .art .banner{position:absolute;left:0;bottom:0;background:var(--red);color:#fdf8ec;
+               font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:7px;font-weight:700;
+               letter-spacing:1.6px;text-transform:uppercase;padding:2.5px 6px 2.5px 5px}
+  .kicker{margin-top:5px;font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:7.2px;
+          letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);font-weight:700}
+  .lead .hl{font-size:19.6px;line-height:1.06;font-weight:700;letter-spacing:-0.3px;margin-top:2px}
+  .lead .body{margin-top:4px;font-size:8.9px;line-height:1.3;color:var(--ink2)}
+  .lead .src{margin-top:auto;padding-top:3px;font-family:"Liberation Sans","DejaVu Sans",sans-serif;
+             font-size:6.7px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mute)}
+
+  /* ---------- briefs grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1.2px solid var(--rule)}
+  .b{padding:7.5px 7px 7.5px 0;border-bottom:0.7px solid #c3b69d;position:relative}
+  .b:nth-child(4n+2),.b:nth-child(4n+3),.b:nth-child(4n+4){border-left:0.7px solid #d3c8b1;padding-left:7px}
+  .b .top{display:flex;align-items:baseline;gap:4px}
+  .b .num{font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:7.2px;font-weight:700;
+          color:#fdf8ec;background:var(--red);padding:1px 3.4px;line-height:1.1;letter-spacing:0.4px}
+  .b .reg{font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:6.6px;letter-spacing:1.3px;
+          text-transform:uppercase;color:var(--mute);font-weight:700}
+  .b .h{margin-top:2.5px;font-size:10.2px;line-height:1.1;font-weight:700;letter-spacing:-0.1px}
+  .b .d{margin-top:2.5px;font-size:7.9px;line-height:1.26;color:var(--ink2)}
+  .b .s{margin-top:2.5px;font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:6.4px;
+        letter-spacing:0.9px;text-transform:uppercase;color:var(--mute)}
+
+  /* ---------- lower band ---------- */
+  .low{display:grid;grid-template-columns:300px 1fr;gap:12px;margin-top:13px}
+  .box{border:1.1px solid var(--rule);padding:7px 8px 7px}
+  .box.hd{background:var(--tint)}
+  .box .cap{display:flex;justify-content:space-between;align-items:baseline;
+            font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:6.6px;letter-spacing:1.7px;
+            text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:4px}
+  .box .cap span{color:var(--mute);font-weight:400;letter-spacing:1px}
+  .tl .row{display:flex;gap:5px;font-size:7.9px;line-height:1.2;color:var(--ink2);margin-bottom:2.6px}
+  .tl .t{font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:6.8px;color:var(--mute);
+         width:34px;flex:none;padding-top:0.6px;letter-spacing:0.4px}
+  .tl b{color:var(--ink)}
+  .also{columns:2;column-gap:12px}
+  .also .it{font-size:7.9px;line-height:1.22;color:var(--ink2);margin-bottom:3.2px;break-inside:avoid;
+            padding-left:6px;text-indent:-6px}
+  .also .it b{color:var(--ink)}
+  .also .it i{font-style:normal;color:var(--mute);font-family:"Liberation Sans","DejaVu Sans",sans-serif;
+              font-size:6.3px;letter-spacing:0.6px;text-transform:uppercase}
+
+  /* ---------- date check ---------- */
+  .check{margin-top:11px;border:1.5px solid var(--red);background:#f8efdc;padding:7px 9px 8px}
+  .check .cap{font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:7px;letter-spacing:2px;
+              text-transform:uppercase;color:var(--red);font-weight:700;display:flex;gap:6px;align-items:baseline}
+  .check .cap small{color:var(--mute);font-weight:400;letter-spacing:1px;font-size:6.2px}
+  .check .txt{margin-top:3px;font-size:7.9px;line-height:1.28;color:var(--ink2)}
+  .check .txt b{color:var(--ink)}
+
+  .foot{margin-top:auto;border-top:1.4px solid var(--rule);padding-top:5px;margin-bottom:7px;
+        display:flex;justify-content:space-between;
+        font-family:"Liberation Sans","DejaVu Sans",sans-serif;font-size:6.6px;letter-spacing:1.1px;
+        text-transform:uppercase;color:var(--mute)}
+</style>
+<body>
+<div class="sheet" id="sheet">
+
+  <div class="rail">
+    <span><b>The World Today</b> · World Edition · No. 340</span>
+    <span>33 stories · 33 countries · one day</span>
+    <span>Friday 20 November 2026 · all times UTC</span>
+  </div>
+
+  <div class="mast">
+    <div class="date">Friday 20 November 2026</div>
+    <div class="sub">The world in one day: every story below was filed on Friday 20 November 2026</div>
+    <div class="dbl"></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">8 <em>killed</em></div><div class="l">Kyiv bridge strikes · Reuters</div></div>
+    <div class="stat"><div class="n">454</div><div class="l">Dead or missing this year · IOM</div></div>
+    <div class="stat"><div class="n"><em>−5.5%</em></div><div class="l">Kospi close · The Guardian</div></div>
+    <div class="stat"><div class="n">$4tn</div><div class="l">Nasdaq value lost this week · WSJ</div></div>
+    <div class="stat"><div class="n">300,000</div><div class="l">Evacuated in Odisha · IMD</div></div>
+    <div class="stat"><div class="n">100,000</div><div class="l">UK–EU youth visas · GOV.UK</div></div>
+  </div>
+
+  <div class="shead"><span class="t">The three biggest</span><span class="r"></span><span class="c">day's lead stories</span></div>
+
+  <div class="leads">
+    <div class="lead">
+      <div class="art">
+        <svg viewBox="0 0 300 96" preserveAspectRatio="none">
+          <rect width="300" height="96" fill="#1d2733"/>
+          <rect y="58" width="300" height="38" fill="#24384a"/>
+          <g stroke="#0f161d" stroke-width="1">
+            <path d="M0 70 h300 M0 82 h300" opacity=".55"/>
+          </g>
+          <path d="M-4 46 H304" stroke="#5d6b78" stroke-width="7"/>
+          <path d="M-4 43 H304" stroke="#8b98a4" stroke-width="1.6"/>
+          <g fill="#7d8a96">
+            <path d="M30 46 q26 -34 52 0 z" opacity=".9"/>
+            <path d="M112 46 q26 -34 52 0 z" opacity=".9"/>
+            <path d="M194 46 q26 -34 52 0 z" opacity=".9"/>
+          </g>
+          <g fill="#1d2733">
+            <path d="M36 46 q20 -26 40 0 z"/>
+            <path d="M118 46 q20 -26 40 0 z"/>
+            <path d="M200 46 q20 -26 40 0 z"/>
+          </g>
+          <g stroke="#e0533f" stroke-width="1.2" opacity=".95">
+            <path d="M252 -6 L214 40"/><path d="M276 -2 L238 44"/><path d="M296 8 L262 44"/>
+          </g>
+          <g fill="#ffcf62">
+            <circle cx="214" cy="41" r="4.6"/><circle cx="238" cy="45" r="3.4"/>
+          </g>
+          <circle cx="214" cy="41" r="10" fill="#ffcf62" opacity=".18"/>
+          <g fill="#8b98a4"><rect x="12" y="16" width="1.4" height="26"/><rect x="24" y="22" width="1" height="20"/></g>
+        </svg>
+        <div class="banner">Ukraine · overnight</div>
+      </div>
+      <div class="kicker">Kyiv · retaliation for the Kerch Bridge</div>
+      <div class="hl">Russia hits Kyiv's Dnipro bridges; eight killed</div>
+      <div class="body">Ballistic missiles and drones struck three crossings in the capital overnight and damaged a hospital in Kharkiv. Twenty-eight people were hurt across nine regions, and a strike on Lviv's railway station killed two, officials said.</div>
+      <div class="src">Reuters · AP · BBC</div>
+    </div>
+
+    <div class="lead">
+      <div class="art">
+        <svg viewBox="0 0 300 96" preserveAspectRatio="none">
+          <rect width="300" height="96" fill="#16202a"/>
+          <g stroke="#2f3f4b" stroke-width="0.7">
+            <path d="M0 24 h300 M0 46 h300 M0 68 h300 M0 88 h300"/>
+            <path d="M70 0 v96 M140 0 v96 M210 0 v96"/>
+          </g>
+          <path d="M6 20 L40 28 L70 24 L100 38 L130 32 L160 50 L192 48 L222 66 L254 62 L292 84 L292 96 L6 96 Z"
+                fill="#c8402c" opacity=".22"/>
+          <path d="M6 20 L40 28 L70 24 L100 38 L130 32 L160 50 L192 48 L222 66 L254 62 L292 84"
+                fill="none" stroke="#f2705a" stroke-width="2.6" stroke-linejoin="round"/>
+          <path d="M256 74 l26 13 l-8 1.5 l6 8 l-6.5 3.5 l-6 -8 l-5 5.5 z" fill="#f2705a"/>
+          <text x="9" y="14" font-family="Liberation Sans" font-size="8.5" font-weight="700"
+                letter-spacing="1.4" fill="#e8e0cc">NIKKEI 225</text>
+          <text x="228" y="14" font-family="Liberation Sans" font-size="10" font-weight="700" fill="#f2705a">−5.0%</text>
+          <text x="9" y="92" font-family="Liberation Sans" font-size="6.4" letter-spacing="1.1"
+                fill="#9fb0bb">SOFTBANK −14.5%</text>
+        </svg>
+        <div class="banner">Markets · Asia close</div>
+      </div>
+      <div class="kicker">Anthropic's IPO fails to steady the trade</div>
+      <div class="hl">AI sell-off goes global; Nasdaq loses 2026's gains</div>
+      <div class="body">Tokyo's Nikkei fell 5% and Seoul's Kospi 5.5%; SoftBank had its worst day in two years, down 14.5%, and Taipei closed 6.7% lower. About $4tn of Nasdaq value went this week, and Anthropic slipped 9% on its second day.</div>
+      <div class="src">The Guardian · Al Jazeera</div>
+    </div>
+
+    <div class="lead">
+      <div class="art">
+        <svg viewBox="0 0 300 96" preserveAspectRatio="none">
+          <rect width="300" height="96" fill="#5c6f74"/>
+          <rect y="64" width="300" height="32" fill="#2f4a4a"/>
+          <path d="M0 64 q60 -18 120 -4 q70 14 180 -6 v42 H0 z" fill="#3d5b52"/>
+          <g fill="none" stroke="#e8e3d4" stroke-width="1.5" opacity=".9">
+            <path d="M196 30 a26 26 0 1 0 1 0"/>
+            <path d="M196 30 a17 17 0 1 1 -1 0"/>
+            <path d="M196 30 a9 9 0 1 0 1 0"/>
+          </g>
+          <circle cx="196" cy="30" r="3" fill="#f2c14e"/>
+          <g stroke="#cfe0e2" stroke-width="0.9" opacity=".55">
+            <path d="M40 18 l-6 14 M58 10 l-6 14 M76 24 l-6 14 M22 30 l-6 14 M100 14 l-6 14 M124 26 l-6 14"/>
+          </g>
+          <path d="M0 78 q40 -8 80 2 q50 12 100 -4 q60 -18 120 4" fill="none" stroke="#e8e3d4" stroke-width="1" opacity=".5"/>
+        </svg>
+        <div class="banner">India · Odisha coast</div>
+      </div>
+      <div class="kicker">Gopalpur · 300,000 evacuated</div>
+      <div class="hl">Cyclone Akvan comes ashore in Odisha</div>
+      <div class="body">The cyclonic storm made landfall near Gopalpur with heavy rain and high wind, then weakened to a deep depression over land. More than 300,000 people had been moved inland, the state said.</div>
+      <div class="src">The Watchers · DD News · IMD</div>
+    </div>
+  </div>
+
+  <div class="shead"><span class="t">The rest of the day</span><span class="r"></span><span class="c">20 more, by region</span></div>
+
+  <div class="grid">
+    <div class="b"><div class="top"><span class="num">4</span><span class="reg">Poland</span></div>
+      <div class="h">Russian objects in Polish airspace</div>
+      <div class="d">Wreckage of an unidentified object found near the Ukrainian border; Warsaw held “Coalition of the Willing” drills.</div>
+      <div class="s">Reuters</div></div>
+
+    <div class="b"><div class="top"><span class="num">5</span><span class="reg">Estonia</span></div>
+      <div class="h">Tallinn shuts its Russian border</div>
+      <div class="d">Estonia suspended crossings for at least six months; Moscow warned of a new “Iron Curtain”.</div>
+      <div class="s">Reuters</div></div>
+
+    <div class="b"><div class="top"><span class="num">6</span><span class="reg">UK · EU</span></div>
+      <div class="h">Summit signs youth-visa scheme</div>
+      <div class="d">A Youth Experience Scheme lets 100,000 young people live and work across the Channel; the tuition-fee cut was put off six months.</div>
+      <div class="s">GOV.UK · Euronews</div></div>
+
+    <div class="b"><div class="top"><span class="num">7</span><span class="reg">Saudi · Yemen</span></div>
+      <div class="h">Riyadh intercepts more Houthi missiles</div>
+      <div class="d">The kingdom reported fresh missiles and drones days into its air campaign over Houthi-held Yemen.</div>
+      <div class="s">AP</div></div>
+
+    <div class="b"><div class="top"><span class="num">8</span><span class="reg">Iraq</span></div>
+      <div class="h">Army deploys into Jurf al-Sakhar</div>
+      <div class="d">Iraqi forces moved into the Kataib Hezbollah stronghold south of Baghdad under a deal to curb the group.</div>
+      <div class="s">Reuters</div></div>
+
+    <div class="b"><div class="top"><span class="num">9</span><span class="reg">Gaza</span></div>
+      <div class="h">Drone strikes kill seven in central Gaza</div>
+      <div class="d">Israeli drones hit central Gaza; in Jabaliya an 11-year-old died of wounds from a quadcopter bomb.</div>
+      <div class="s">Al Jazeera</div></div>
+
+    <div class="b"><div class="top"><span class="num">10</span><span class="reg">China · Japan</span></div>
+      <div class="h">Beijing presses Tokyo on Taiwan remarks</div>
+      <div class="d">China demanded that PM Sanae Takaichi “correct” her statements on Taiwan.</div>
+      <div class="s">CGTN</div></div>
+
+    <div class="b"><div class="top"><span class="num">11</span><span class="reg">India · Pakistan</span></div>
+      <div class="h">Pakistani minister visits Delhi</div>
+      <div class="d">Climate minister Musadik Malik attended an SCO forum, the first such visit since 2023.</div>
+      <div class="s">DW</div></div>
+
+    <div class="b"><div class="top"><span class="num">12</span><span class="reg">Senegal</span></div>
+      <div class="h">Migrant boat capsizes; dozens missing</div>
+      <div class="d">Four bodies were recovered after a boat with about 100 aboard went down off Yenne; 454 have died on the route this year.</div>
+      <div class="s">allAfrica · IOM</div></div>
+
+    <div class="b"><div class="top"><span class="num">13</span><span class="reg">Somalia</span></div>
+      <div class="h">Mogadishu expels the UAE ambassador</div>
+      <div class="d">Somalia gave Abu Dhabi 72 hours, accusing it of arming groups and signing port deals on its own.</div>
+      <div class="s">allAfrica</div></div>
+
+    <div class="b"><div class="top"><span class="num">14</span><span class="reg">Kenya</span></div>
+      <div class="h">US-led group wins $60bn minerals bid</div>
+      <div class="d">Frontier Minerals took the Mrima Hill niobium project; two rival bidders may challenge the award.</div>
+      <div class="s">allAfrica</div></div>
+
+    <div class="b"><div class="top"><span class="num">15</span><span class="reg">DR Congo</span></div>
+      <div class="h">Ebola outbreak spreads to three states</div>
+      <div class="d">The WHO confirmed Bundibugyo ebolavirus disease in the DRC, Kenya and Nigeria.</div>
+      <div class="s">WHO</div></div>
+
+    <div class="b"><div class="top"><span class="num">16</span><span class="reg">Colombia</span></div>
+      <div class="h">Second national protest over tax bill</div>
+      <div class="d">Thousands marched against President de la Espriella's tax plan and closer military ties with Washington.</div>
+      <div class="s">Al Jazeera</div></div>
+
+    <div class="b"><div class="top"><span class="num">17</span><span class="reg">Americas</span></div>
+      <div class="h">US widens its Latin America operations</div>
+      <div class="d">Strikes on armed groups in Venezuela and Ecuador and at sea, under what critics call the “Donroe Doctrine”.</div>
+      <div class="s">Le Monde</div></div>
+
+    <div class="b"><div class="top"><span class="num">18</span><span class="reg">Türkiye</span></div>
+      <div class="h">COP31's last day ends with no deal</div>
+      <div class="d">Talks in Antalya were set to run past their deadline, fossil fuels still out of the text; activists chanted “shame”.</div>
+      <div class="s">UN News · DW</div></div>
+
+    <div class="b"><div class="top"><span class="num">19</span><span class="reg">Myanmar</span></div>
+      <div class="h">Junta rejects the genocide ruling</div>
+      <div class="d">The junta dismissed the ICJ's 9–6 verdict on the Rohingya, noting that not all 15 judges agreed.</div>
+      <div class="s">BBC · AP</div></div>
+    <div class="b"><div class="top"><span class="num">20</span><span class="reg">Brazil</span></div>
+      <div class="h">Lula recognises more Indigenous land</div>
+      <div class="d">Brazil recognised the land as Lula visited the ailing chief Raoni.</div>
+      <div class="s">Al Jazeera</div></div>
+
+    <div class="b"><div class="top"><span class="num">21</span><span class="reg">Indonesia</span></div>
+      <div class="h">Asset-forfeiture bill passes</div>
+      <div class="d">Parliament approved the long-delayed law letting the state seize unexplained wealth.</div>
+      <div class="s">ANTARA</div></div>
+
+    <div class="b"><div class="top"><span class="num">22</span><span class="reg">Britain</span></div>
+      <div class="h">UK confirms offensive cyber operations</div>
+      <div class="d">Its cyber commander said Britain runs attacks against Russia, China, Iran and North Korea.</div>
+      <div class="s">Sky News</div></div>
+
+    <div class="b"><div class="top"><span class="num">23</span><span class="reg">Guyana</span></div>
+      <div class="h">US envoy floated ceding Essequibo</div>
+      <div class="d">Officials said a State Department hand suggested Guyana give territory to Venezuela; Washington denied a policy change.</div>
+      <div class="s">Reuters</div></div>
+  </div>
+
+  <div class="low">
+    <div class="box tl">
+      <div class="cap">The day in order <span>UTC, approx.</span></div>
+      <div class="row"><span class="t">00:40</span><span><b>Kyiv</b> — missiles and drones hit three Dnipro bridges</span></div>
+      <div class="row"><span class="t">02:10</span><span><b>Kyiv</b> — mayor: eight dead; Kharkiv hospital damaged</span></div>
+      <div class="row"><span class="t">06:00</span><span><b>Tokyo</b> — Nikkei closes 5% lower, SoftBank −14.5%</span></div>
+      <div class="row"><span class="t">08:30</span><span><b>Odisha</b> — Akvan makes landfall near Gopalpur</span></div>
+      <div class="row"><span class="t">11:00</span><span><b>UK–EU</b> — youth-mobility deal signed at the summit</span></div>
+      <div class="row"><span class="t">18:00</span><span><b>Antalya</b> — COP31's scheduled close passes, no deal</span></div>
+    </div>
+
+    <div class="box hd">
+      <div class="cap">Also on Friday <span>10 more, with sources</span></div>
+      <div class="also">
+        <div class="it"><b>Oil rose</b> on Iran-war supply fear as Houthi attacks on Riyadh continued. <i>Reuters</i></div>
+        <div class="it"><b>One child in four</b> now lives in a conflict zone, a record, Save the Children said; in Africa two in five. <i>Save the Children</i></div>
+        <div class="it"><b>Zimbabwe's 2027 budget</b> gave ZWG59.5bn to security ministries as drought loomed. <i>allAfrica</i></div>
+        <div class="it"><b>The EU banned plastic-waste exports</b> to non-OECD countries from 21 November. <i>European Commission</i></div>
+        <div class="it"><b>Japan said it was wary</b> of regular US–China–Russia talks after the Shenzhen summit. <i>fnnews</i></div>
+        <div class="it"><b>Thousands marched</b> in Antalya for climate justice as COP31 met. <i>Democracy Now!</i></div>
+        <div class="it"><b>Blue Nile state</b> said it was mobilising troops against an alliance fighting Sudan's army. <i>Sudan Tribune</i></div>
+        <div class="it"><b>Pakistan said attacks</b> launched from Afghan soil have caused more than 3,500 casualties. <i>Pakistan FO</i></div>
+        <div class="it"><b>Seoul's unification minister</b> met the new US ambassador after a months-long delay. <i>NK News</i></div>
+        <div class="it"><b>Bukele confirmed</b> Salvadoran troops in Haiti raided a gang leader's home. <i>Bukele statement</i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="check">
+    <div class="cap">Date check <small>what this page leaves out, and why</small></div>
+    <div class="txt">Every story above happened, or was first reported, on <b>Friday 20 November 2026</b>. Deliberately left out as <b>Thursday's</b> news: the <b>ICJ genocide ruling</b> against Myanmar (read 19 Nov), the <b>Trump–Putin–Xi summit</b> and its statement that nuclear war “must never be fought” (Shenzhen, 19 Nov), the <b>Senate's 51–48 rejection</b> of the Iran war-powers resolution (19 Nov), California's <b>Nvidia subpoena</b> (19 Nov), the <b>COP31 “slimmed-down” draft</b> (published 19 Nov) and the <b>deep-sea mining lease</b> off American Samoa (19 Nov).</div>
+  </div>
+
+  <div class="foot">
+    <span>Compiled 20 Nov 2026 · Reuters · AP · BBC · Al Jazeera · The Guardian · UN News · WHO · allAfrica · GOV.UK</span>
+    <span>33 stories · 33 countries · 5 continents</span>
+  </div>
+</div>
+
+<script>
+  // Layout audit: reports overflow and overlap so the page can be checked without eyes.
+  window.__audit = () => {
+    const out = { overflow: [], overlaps: [], size: null, text: 0 };
+    const sheet = document.getElementById('sheet');
+    out.size = [sheet.getBoundingClientRect().width, sheet.getBoundingClientRect().height];
+    const all = [...sheet.querySelectorAll('*')];
+    for (const el of all) {
+      if (el.children.length && !el.classList.contains('art')) continue;
+      if (!el.textContent.trim()) continue;
+      out.text++;
+      const oy = el.scrollHeight - el.clientHeight;
+      const ox = el.scrollWidth - el.clientWidth;
+      if ((oy > 1 || ox > 1) && getComputedStyle(el).overflow === 'visible') {
+        out.overflow.push([el.className || el.tagName, Math.round(el.getBoundingClientRect().top), oy, ox]);
+      }
+      const r = el.getBoundingClientRect();
+      if (r.bottom > 1024 || r.right > 1024 || r.top < 0) {
+        out.overflow.push(['offscreen:' + (el.className || el.tagName), Math.round(r.top), Math.round(r.bottom), Math.round(r.right)]);
+      }
+    }
+    out.sections = ['.rail','.mast','.stats','.shead','.leads','.grid','.low','.check','.foot'].map((sel)=>{
+      const el = sheet.querySelector(sel); const r = el.getBoundingClientRect();
+      return [sel, Math.round(r.top), Math.round(r.bottom), Math.round(r.height)];
+    });
+    out.fonts = [['mast','.mast .date'],['leadHl','.lead .hl'],['briefHl','.b .h'],['briefD','.b .d'],['also','.also .it']].map(([k,sel])=>{
+      return [k, getComputedStyle(sheet.querySelector(sel)).fontSize];
+    });
+    out.svgText = [...sheet.querySelectorAll('svg text')].map((t)=>{
+      const b = t.getBBox(); const svg = t.ownerSVGElement;
+      const vb = svg.getAttribute('viewBox').split(/\s+/).map(Number);
+      return [t.textContent, Math.round(b.x), Math.round(b.x+b.width), vb[2], Math.round(b.x+b.width) > vb[2]];
+    });
+    out.statLines = [...sheet.querySelectorAll('.stat')].map((el)=>{
+      const r = el.getBoundingClientRect();
+      const l = el.querySelector('.l');
+      return [el.querySelector('.n').textContent.trim(), Math.round(r.height), l.getClientRects().length, Math.round(l.getBoundingClientRect().height)];
+    });
+    const leaves = [...sheet.querySelectorAll(
+      '.b .h, .b .d, .b .s, .b .reg, .lead .hl, .lead .body, .lead .src, .kicker, ' +
+      '.stat .n, .stat .l, .tl .row, .also .it, .check .txt, .check .cap, .mast .date, ' +
+      '.mast .sub, .shead .t, .shead .c, .box .cap, .foot span, .rail span')];
+    const rects = leaves.map((el) => [el, el.getBoundingClientRect()]);
+    for (let i = 0; i < rects.length; i++) {
+      for (let j = i + 1; j < rects.length; j++) {
+        const [a, ra] = rects[i], [b, rb] = rects[j];
+        if (a.contains(b) || b.contains(a)) continue;
+        const ox = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
+        const oy = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
+        if (ox > 2 && oy > 2) out.overlaps.push([a.className, b.className, Math.round(ox), Math.round(oy)]);
+      }
+    }
+    return out;
+  };
+  const pre = document.createElement('pre');
+  pre.id = 'audit';
+  pre.style.cssText = 'position:fixed;left:0;top:0;display:none';
+  document.body.appendChild(pre);
+  pre.textContent = JSON.stringify(window.__audit());
+  if (location.search.includes('audit')) pre.style.display = 'block';
+</script>
+</body>
+</html>
